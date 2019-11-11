@@ -6,6 +6,7 @@
 int main4()
 {
 	printf("先放着");
+	printf("123");
 
 	system("pause");
 	return 0;
