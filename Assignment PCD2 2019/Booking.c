@@ -6,7 +6,7 @@
 
 // Booking Time 还没做。
 
-int main()
+int main1()
 {
 	FILE *fBook;
 	Date bookingDate;
