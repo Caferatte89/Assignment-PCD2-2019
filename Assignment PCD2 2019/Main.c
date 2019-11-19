@@ -8,56 +8,88 @@ Facility Usage Module - Chin Sze Sing
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "Header.h"
 #pragma warning(disable:4996)
 
 // Declaration of self-defined function.
-void loginArt();
-void loginScreen();
 
-int main0()
+// Art of Login Screen.
+void loginArt();
+// Login Screen. It return user inputed selection.
+char loginScreen();
+
+int main90()
 {
-	int selection = -1;
-	char valid;
+	int i = 0;
+	char menuSelection, selection[2];
+	// For displaying time purpose.
+	time_t t = time(NULL);
+	struct tm tm = *localtime(&t);
 
 	loginArt();
-	loginScreen();
+	menuSelection = loginScreen();
+	switch (menuSelection)
+	{
+	case '1':
+		break;
+	case '2':
+		break;
+	case '3':
+		return 0;
+	}
+
+	system("cls");
 	while (1)
 	{
-		printf("1. Facility detail\n");
-		printf("2. Checking facility usage\n");
-		printf("3. Booking a facility\n");
-		printf("4. Register\n");
-		printf("5. Staff related perform\n");
-		printf("6. Exit\n");
+		printf("\n%55sMAIN MENU%55s", "", "");
+		printf("\n%55s---------%55s", "", "");
+		printf("%48sToday's Date: %02d/%02d/%d\n", "", tm.tm_mday, tm.tm_mon + 1, tm.tm_year + 1900);
+		printf("%44s-------------------------------%44s\n", "", "");
+		printf("%44s| [1] Facility detail         |%44s\n", "", "");
+		printf("%44s| [2] Checking facility usage |%44s\n", "", "");
+		printf("%44s| [3] Booking a facility      |%44s\n", "", "");
+		printf("%44s| [4] Staff related action    |%44s\n", "", "");
+		printf("%44s| [5] Exit                    |%44s\n", "", "");
+		printf("%44s-------------------------------%44s\n", "", "");
 
 		// Let user to choose a selection.
-		printf("Choose a selection to proceed: ");
-		rewind(stdin);
-		scanf("%d%c", &selection, &valid);
-
-		while (selection < 1 || selection > 6 || valid != '\n')
+		// To let user only input 1, 2 and 3.
+		printf("%45sPlease choose a selection: ", "");
+		while (1)
 		{
-			printf("Invalid input! Please try again: ");
-			selection = -1;
-			rewind(stdin);
-			scanf("%d%c", &selection, &valid);
+			selection[i] = getch();
+			if (i == 1)
+			{
+				if (selection[i] == '\n' || selection[i] == '\r')
+					break;
+				else if (selection[i] == '\b')
+				{
+					printf("\b \b");
+					i--;
+				}
+			}
+			else if (selection[i] != '1' && selection[i] != '2' && selection[i] != '3' && selection[i] != '4' && selection[i] != '5')
+				continue;
+			else
+			{
+				printf("%c", selection[i]);
+				i++;
+			}
 		}
 
-		switch (selection)
+		switch (selection[0])
 		{
-		case 1:
+		case '1':
 			//Facility(); break;
-		case 2:
+		case '2':
 			//FacilityUsage(); break;
-		case 3:
+		case '3':
 			//Booking(); break;
-		case 4:
-			//UserInformation(); break;
-		case 5:
+		case '4':
 			//StaffInformation();
 			break;
-		case 6:
+		case '5':
 			return 0;
 		}
 	}
@@ -71,21 +103,28 @@ void loginArt()
 	printf("%16s /        \\  |_> >  <_> )  | \\/|  |    |     \\   / __ \\\\  \\___|  |  |_|  ||  |  \\___  |%16s\n", "", "");
 	printf("%16s/_______  /   __/ \\____/|__|   |__|    \\___  /  (____  /\\___  >__|____/__||__|  / ____|%16s\n", "", "");
 	printf("%16s        \\/|__|                             \\/        \\/     \\/                  \\/     %16s\n", "", "");
+	for (int i = 0; i < 120; i++)
+		printf("-");
 }
 
-void loginScreen()
+char loginScreen()
 {
 	int i = 0;
 	char selection[2];
+	// For displaying time purpose.
+	time_t t = time(NULL);
+	struct tm tm = *localtime(&t);
 
-	printf("\n%49sSPORT FACILITY SYSTEM%49s\n", "", "");
+	printf("%49sSPORT FACILITY SYSTEM%49s\n", "", "");
 	printf("%51s-----------------%51s\n", "", "");
 	printf("%51s| [1]  LOGIN    |%51s\n", "", "");
 	printf("%51s| [2]  REGISTER |%51s\n", "", "");
 	printf("%51s| [3]  EXIT     |%51s\n", "", "");
-	printf("%51s-----------------%51s\n\n", "", "");
-	printf("%46sPlease choose a selection: ", "");
+	printf("%51s-----------------%51s\n", "", "");
+	printf("%48sToday's Date: %02d/%02d/%d\n\n", "", tm.tm_mday, tm.tm_mon + 1, tm.tm_year + 1900);
+	printf("%47sPlease choose a selection: ", "");
 	
+	// To let user only input 1, 2 and 3.
 	while (1)
 	{
 		selection[i] = getch();
@@ -99,7 +138,7 @@ void loginScreen()
 				i--;
 			}
 		}
-		else if (selection[i] == '\n' || selection[i] == '\b' || selection[i] == '\r')
+		else if (selection[i] != '1' && selection[i] != '2' && selection[i] != '3')
 			continue;
 		else
 		{
@@ -107,5 +146,6 @@ void loginScreen()
 			i++;
 		}
 	}
-	system("cls");
+
+	return selection[0];
 }

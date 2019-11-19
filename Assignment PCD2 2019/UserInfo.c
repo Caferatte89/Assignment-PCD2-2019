@@ -15,7 +15,7 @@ struct user
 /* 》test to add gmail.
    》验证码*/
 
-void main()
+void main0()
 {
 	FILE*fptra;
 	FILE*fptrr;
