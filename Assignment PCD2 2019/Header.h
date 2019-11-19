@@ -15,6 +15,7 @@ typedef struct {
 // For user infomation usage.
 typedef struct {
 	char name[32];
+	char password[17];
 	char gender[3], IC[16];
 	char phoneNum[13];
 } UserInfo;
@@ -22,6 +23,7 @@ typedef struct {
 // For staff information usage.
 typedef struct {
 	char staffID[7];
+	char job[17];
 	UserInfo info;
 } StaffInfo;
 

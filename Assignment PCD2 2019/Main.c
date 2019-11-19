@@ -15,7 +15,7 @@ Facility Usage Module - Chin Sze Sing
 void loginArt();
 void loginScreen();
 
-int main3()
+int main0()
 {
 	int selection = -1;
 	char valid;
@@ -82,6 +82,7 @@ void loginScreen()
 	printf("%51s-----------------%51s\n", "", "");
 	printf("%51s| [1]  LOGIN    |%51s\n", "", "");
 	printf("%51s| [2]  REGISTER |%51s\n", "", "");
+	printf("%51s| [3]  EXIT     |%51s\n", "", "");
 	printf("%51s-----------------%51s\n\n", "", "");
 	printf("%46sPlease choose a selection: ", "");
 	
