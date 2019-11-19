@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="Booking.c" />
     <ClCompile Include="Facility.c" />
+    <ClCompile Include="Header.c" />
     <ClCompile Include="Main.c" />
     <ClCompile Include="StaffInfo.c" />
     <ClCompile Include="Usage.c" />

@@ -1,23 +1,22 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
 #include <string.h>
 #include "Header.h"
 #pragma warning(disable:4996)
 
-// Booking Time 还没做。
-
-int main1()
+int main1(void)
 {
 	FILE *fBook;
 	Date bookingDate;
-	char bookID[6 + 1], userID[11 + 1], facilityID[6 + 1];
+	char bookID[7], userID[12], facilityID[7];
+	int startTime, endTime;
 	char confirm, valid;
-
-	// Check if booking log is exist. If it isn't, the booking log will be created.
-	if (fopen("BookingLog.txt", "r") != NULL)
-		fBook = fopen("BookingLog.txt", "a");
-	else
+	
+	if (checkFile("BookingLog.txt") == -1)
 		fBook = fopen("BookingLog.txt", "w");
+	else
+		fBook = fopen("BookingLog.txt", "a");
 
 	do
 	{
@@ -27,7 +26,7 @@ int main1()
 		scanf("%6s", bookID);
 		while (strlen(bookID) > 5)
 		{
-			printf("\nInvalid input! Maximum 5 character!\n");
+			printf("\nInvalid input! Maximum 5 characters!\n");
 			printf("Booking ID: ");
 			rewind(stdin);
 			scanf("%6s", bookID);
@@ -37,6 +36,29 @@ int main1()
 		printf("Booking Date (DD/MM/YYYY): ");
 		rewind(stdin);
 		scanf("%d/%d/%d", &bookingDate.day, &bookingDate.month, &bookingDate.year);
+
+		// Get input of booking time.
+		printf("Booking Time (in 24-hour format): \n");
+		printf("Start Time: ");
+		rewind(stdin);
+		scanf("%d%c", &startTime, &valid);
+		while (startTime < 0 || startTime > 2400 || valid != '\n')
+		{
+			printf("Invalid input! Please enter again: \n");
+			printf("Start Time: ");
+			rewind(stdin);
+			scanf("%d%c", &startTime, &valid);
+		}
+		printf("End Time: ");
+		rewind(stdin);
+		scanf("%d%c", &endTime, &valid);
+		while (endTime < 0 || endTime > 2400 || valid != '\n' || endTime < startTime)
+		{
+			printf("Invalid input! Please enter again: \n");
+			printf("End Time: ");
+			rewind(stdin);
+			scanf("%d%c", &endTime, &valid);
+		}
 
 		// Get input of user ID.
 		printf("User ID: ");
@@ -66,14 +88,14 @@ int main1()
 		printf("\n---\n");
 		printf("Booking ID: %s\n", bookID);
 		printf("Booking Date: %02d/%02d/%d\n", bookingDate.day, bookingDate.month, bookingDate.year);
-		printf("Booking Time: \n");
+		printf("Booking Time: %04d-%04d\n", startTime, endTime);
 		printf("User ID: %s\n", userID);
 		printf("Facility ID: %s\n", facilityID);
 
 		printf("Confirm? (Y/N): ");
 		rewind(stdin);
 		scanf("%c%c", &confirm, &valid);
-		while ((confirm != 'Y' && confirm != 'N') || valid != '\n')
+		while ((toupper(confirm) != 'Y' && toupper(confirm) != 'N') || valid != '\n')
 		{
 			printf("Invalid input! Please enter again.\n");
 			printf("Confirm? (Y/N): ");
@@ -82,10 +104,10 @@ int main1()
 		}
 
 		// Write into file if get confirmation.
-		if (confirm == 'Y')
+		if (toupper(confirm) == 'Y')
 		{
 			fprintf(fBook, "%s|%02d/%02d/%d|", bookID, bookingDate.day, bookingDate.month, bookingDate.year);
-			fprintf(fBook, "%s|%s\n", userID, facilityID);
+			fprintf(fBook, "%04d-%04d|%s|%s\n", startTime, endTime, userID, facilityID);
 			printf("Booking Successfully!\n");
 		}
 
@@ -93,7 +115,7 @@ int main1()
 		printf("\nStart again? (Y/N): ");
 		rewind(stdin);
 		scanf("%c%c", &confirm, &valid);
-		while ((confirm != 'Y' && confirm != 'N') || valid != '\n')
+		while ((toupper(confirm) != 'Y' && toupper(confirm) != 'N') || valid != '\n')
 		{
 			printf("Invalid input! Please enter again.\n");
 			printf("Confirm? (Y/N): ");
@@ -101,7 +123,7 @@ int main1()
 			scanf("%c%c", &confirm, &valid);
 		}
 		printf("---\n\n");
-	} while (confirm == 'Y');
+	} while (toupper(confirm) == 'Y');
 
 	fclose(fBook);
 	system("pause");
