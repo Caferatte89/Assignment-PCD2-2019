@@ -31,6 +31,12 @@ typedef struct {
 	UserInfo info;
 } StudentInfo;
 
+/* For checking whether the file is exist/empty or not.
+   return -1 - not exist
+   return  0 - empty
+   return  1 - exist */
+int checkFile(char fileName[]);
+
 // For password XOR usage?
 #define XOR1 0b01100010
 #define XOR2 0x01E

@@ -1,22 +1,22 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
 #include <string.h>
 #include "Header.h"
 #pragma warning(disable:4996)
 
-int main()
+int main1(void)
 {
 	FILE *fBook;
 	Date bookingDate;
 	char bookID[7], userID[12], facilityID[7];
 	int startTime, endTime;
 	char confirm, valid;
-
-	// Check whether if booking log is exist. If it isn't, the booking log will be created.
-	if (fopen("BookingLog.txt", "r") != NULL)
-		fBook = fopen("BookingLog.txt", "a");
-	else
+	
+	if (checkFile("BookingLog.txt") == -1)
 		fBook = fopen("BookingLog.txt", "w");
+	else
+		fBook = fopen("BookingLog.txt", "a");
 
 	do
 	{
@@ -95,7 +95,7 @@ int main()
 		printf("Confirm? (Y/N): ");
 		rewind(stdin);
 		scanf("%c%c", &confirm, &valid);
-		while ((confirm != 'Y' && confirm != 'N') || valid != '\n')
+		while ((toupper(confirm) != 'Y' && toupper(confirm) != 'N') || valid != '\n')
 		{
 			printf("Invalid input! Please enter again.\n");
 			printf("Confirm? (Y/N): ");
@@ -104,7 +104,7 @@ int main()
 		}
 
 		// Write into file if get confirmation.
-		if (confirm == 'Y')
+		if (toupper(confirm) == 'Y')
 		{
 			fprintf(fBook, "%s|%02d/%02d/%d|", bookID, bookingDate.day, bookingDate.month, bookingDate.year);
 			fprintf(fBook, "%04d-%04d|%s|%s\n", startTime, endTime, userID, facilityID);
@@ -115,7 +115,7 @@ int main()
 		printf("\nStart again? (Y/N): ");
 		rewind(stdin);
 		scanf("%c%c", &confirm, &valid);
-		while ((confirm != 'Y' && confirm != 'N') || valid != '\n')
+		while ((toupper(confirm) != 'Y' && toupper(confirm) != 'N') || valid != '\n')
 		{
 			printf("Invalid input! Please enter again.\n");
 			printf("Confirm? (Y/N): ");
@@ -123,7 +123,7 @@ int main()
 			scanf("%c%c", &confirm, &valid);
 		}
 		printf("---\n\n");
-	} while (confirm == 'Y');
+	} while (toupper(confirm) == 'Y');
 
 	fclose(fBook);
 	system("pause");
