@@ -1,6 +1,6 @@
 #pragma once
 
-// Self-defined function.
+// Self-defined sub-main function for each member.
 void StaffInformation();
 void Facility();
 void UserInformation();
@@ -11,6 +11,13 @@ void FacilityUsage();
 typedef struct {
 	int day, month, year;
 } Date;
+
+/* To display current date.
+	"day" - return day
+	"month" - return month
+	"year" - return year
+	else (invalid input) - return 0 */
+int todayDate(char toDisplay[]);
 
 // For user infomation usage.
 typedef struct {
@@ -42,5 +49,10 @@ int checkFile(char fileName[]);
 // For password XOR usage?
 #define XOR1 0b01100010
 #define XOR2 0x01E
+
+/* To check time input is valid or not.
+	return 1 - valid
+	return 0 - not valid */
+int checkTimeValid(int time);
 
 // 放各种define在这里。
