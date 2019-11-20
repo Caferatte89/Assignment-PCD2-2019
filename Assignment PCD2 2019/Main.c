@@ -19,13 +19,10 @@ void loginArt();
 // Login Screen. It return user inputed selection.
 char loginScreen();
 
-int main90()
+int main55()
 {
 	int i = 0;
 	char menuSelection, selection[2];
-	// For displaying time purpose.
-	time_t t = time(NULL);
-	struct tm tm = *localtime(&t);
 
 	loginArt();
 	menuSelection = loginScreen();
@@ -44,7 +41,7 @@ int main90()
 	{
 		printf("\n%55sMAIN MENU%55s", "", "");
 		printf("\n%55s---------%55s", "", "");
-		printf("%48sToday's Date: %02d/%02d/%d\n", "", tm.tm_mday, tm.tm_mon + 1, tm.tm_year + 1900);
+		printf("%48sToday's Date: %02d/%02d/%d\n", "", todayDate("day"), todayDate("month"), todayDate("year"));
 		printf("%44s-------------------------------%44s\n", "", "");
 		printf("%44s| [1] Facility detail         |%44s\n", "", "");
 		printf("%44s| [2] Checking facility usage |%44s\n", "", "");
@@ -105,15 +102,13 @@ void loginArt()
 	printf("%16s        \\/|__|                             \\/        \\/     \\/                  \\/     %16s\n", "", "");
 	for (int i = 0; i < 120; i++)
 		printf("-");
+	printf("\n\n");
 }
 
 char loginScreen()
 {
 	int i = 0;
 	char selection[2];
-	// For displaying time purpose.
-	time_t t = time(NULL);
-	struct tm tm = *localtime(&t);
 
 	printf("%49sSPORT FACILITY SYSTEM%49s\n", "", "");
 	printf("%51s-----------------%51s\n", "", "");
@@ -121,7 +116,12 @@ char loginScreen()
 	printf("%51s| [2]  REGISTER |%51s\n", "", "");
 	printf("%51s| [3]  EXIT     |%51s\n", "", "");
 	printf("%51s-----------------%51s\n", "", "");
-	printf("%48sToday's Date: %02d/%02d/%d\n\n", "", tm.tm_mday, tm.tm_mon + 1, tm.tm_year + 1900);
+	printf("%48sToday's Date: %02d/%02d/%d\n", "", todayDate("day"), todayDate("month"), todayDate("year"));
+	printf("%48sWritten by: Ong Chen Xiang\n", "");
+	printf("%48s            Ng Jeriel\n", "");
+	printf("%48s            Chong Ke Wei\n", "");
+	printf("%48s            Chin Sze Sing\n", "");
+	printf("%48s            Khaw Zhe Xue\n\n", "");
 	printf("%47sPlease choose a selection: ", "");
 	
 	// To let user only input 1, 2 and 3.
