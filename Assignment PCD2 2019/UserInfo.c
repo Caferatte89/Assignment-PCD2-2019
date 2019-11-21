@@ -1,10 +1,8 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<ctype.h>
-#include<time.h>
-#include<string.h>
-#include"Header.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include "Header.h"
 #pragma warning(disable:4996)
+
 
 char ans;
 
@@ -104,5 +102,4 @@ void student()
 
 void staff()
 {
-	
 }

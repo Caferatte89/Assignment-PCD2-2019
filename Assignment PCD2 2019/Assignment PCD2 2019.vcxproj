@@ -25,7 +25,9 @@
     <ClCompile Include="Main.c" />
     <ClCompile Include="StaffInfo.c" />
     <ClCompile Include="Usage.c" />
-    <ClCompile Include="UserInfo.c" />
+    <ClCompile Include="UserInfo.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header.h" />
