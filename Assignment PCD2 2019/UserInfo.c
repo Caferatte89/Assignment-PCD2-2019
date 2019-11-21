@@ -6,125 +6,103 @@
 #include"Header.h"
 #pragma warning(disable:4996)
 
-struct user
-{
-	char name[30], id[20], c[4], contact[16], code[6], password1[30], password2[30];
-	int date, month, year, time1, time2, time3;
-};
+char ans;
 
-/* 》test to add gmail.
-   》验证码*/
+UserInfo u;
+StudentInfo s;
+
+void student();
+void staff();
+
+/*Gmail, List user, yanzhengma, */
+	/*Register*/
 
 void main()
 {
-	FILE*fptra;
-	FILE*fptrr;
-	FILE*fptrw;
-	fptra = fopen("userinput.txt", "a");
-	fptrr = fopen("userinput.txt", "r");
-	fptrw = fopen("userinput.txt", "w");
-
-	struct user u;
-
-	char answer = 'Y', ac, aw;
-	int ans;
-
-	while (toupper(answer) == 'Y')
+	FILE *fptr;
+	fptr = fopen("userinput.txt", "a");
+	printf("Enter your user name \n>>");
+	scanf("%[^\n]", u.name);
+	rewind(stdin);
+	printf("\nPlease enter your user ID (XXXXXXXXXX)\n>>");
+	scanf("%s", u.id);
+	rewind(stdin);
+	printf("\nEnter your IC (XXXXXX-XX-XXXX)\n>>");
+	scanf("%s", u.IC);
+	rewind(stdin);
+	printf("\nEnter your gender.(B = Boy/G = Girl)\n>>");
+	scanf("%s", u.gender);
+	rewind(stdin);
+	printf("\nEnter your contact number. (01X-XXXX XXX)\n>>");
+	scanf("%[^\n]", u.phoneNum);
+	rewind(stdin);
+	printf("\n\nChoose your Identity.\n"
+		"1.Student\n"
+		"2.Staff Member\n\n>>");
+	scanf("%d", &u.choose1);
+	rewind(stdin);
+	switch (u.choose1)
 	{
-		printf("Welcome for use our booking system!\n");
+	case 1:
+		student();
+		fprintf(fptr,"%s %s %d year %d sem\n %s %s %s %s",
+			       u.name,s.classroom,s.yearstu,s.semstu,u.id,u.IC,u.gender,u.phoneNum);
+		break;
 
-		time_t t;
-		time(&t);
-
-		printf("\n\nToday's Date : %s\n\n", ctime(&t));
-
-		printf("Welcome to Personal Users Interface!\n"
-			"First,Please key in your user account.\n\n"
-			"Do you have an account ? (Y\N) \n"
-			">>");
-		scanf("%c", &ac);
+	case 2:
+		printf("Please enter your job occupation. "
+			"1.Teacher \n"
+			"2.Staff Member \n"
+			"3.Guest \n\n>>");
+		scanf("%d", &u.chooset);
 		rewind(stdin);
-		if (toupper(ac) == 'Y')
+		switch (u.chooset)
 		{
-			printf("Now, Enter your user name > ");
-			scanf("%[^\n]", u.name);
-			rewind(stdin);
+		case 1:
+			printf("Success for register.\n");
+			fprintf(fptr, "%s Teacher \n %s %s %s %s",
+				u.name, u.id, u.IC, u.gender, u.phoneNum);
+			break;
 
+		case 2:
+			printf("Success for register.\n");
+			fprintf(fptr, "%s Staff Member \n %s %s %s %s",
+				u.name, u.id, u.IC, u.gender, u.phoneNum);
+			break;
 
-		}
-		else if (toupper(ac) == 'N')
-		{
-			printf("OK.Are you create a new user account ? (Y/N)\n>>");
-			scanf("%c", &aw);
-			rewind(stdin);
-			if (toupper(aw) == 'Y')
-			{
-				printf("OK. Now try enter your user name >");
-				scanf("%[^\n]", u.name);
-				rewind(stdin);
-				printf("\nNext,Enter your user ID >");
-				scanf("%s", u.id);
-				rewind(stdin);
-				printf("\nEnter your contact number (01XXXXXXXX) >");
-				scanf("%s", u.contact);
-				rewind(stdin);
-				printf("Enter your password >");
-				scanf("%s", u.password1);
-				rewind(stdin);
-				printf("Now,try to enter your password again.\nTo make sure it correct.\n>");
-				scanf("%s", u.password2);
-				rewind(stdin);
-				if (strcmp(u.password1, u.password2) == 0)
-				{
-					fprintf(fptra, "%d | %d | %d | %d", u.name, u.id, u.contact, u.password1);
-				}
-				printf("Now, please select your Identity.\n");
-				printf("1. Teacher. \n");
-				printf("2. Student.\n");
-				printf("3. staff member.\n");
-				printf("4. Unrelated person.\n");
-				printf("5. Other.");
-				scanf("%d", &ans);
-				switch (ans)
-				{
-				case 1:
-					printf("Enter your name > ");
-					scanf("%[^\n]", u.name);
-					rewind(stdin);
-					printf("Enter your ID (PMDXXXXX) > ");
-					scanf("%s", u.id);
-					rewind(stdin);
-					printf("Enter your password > ");
-					scanf("%s", u.password1);
-					rewind(stdin);
-					if (fscanf(fptrr, "%s", u.password1))
+		case 3:
+			printf("Success for register.\n");
+			fprintf(fptr, "%s Guest \n %s %s %s %s",
+				u.name, u.id, u.IC, u.gender, u.phoneNum);
+			break;
 
-						printf("Enter your class code > ");
-					scanf("%s", u.code);
-					rewind(stdin);
-					fprintf(fptra, "%s | %s | %s | %s", u.name, u.id, u.password1, u.code);
-				case 2:
-					break;
-				}
-
-			}
-			else if (toupper(aw) == 'N')
-			{
-				printf("Thank for use our system.");
-			}
-			else
-			{
-				printf("Your reply is invalid.\nPlease try to enter again.\n\n>>");
-
-			}
-		}
-		else
-		{
-			printf("Your reply is invalid.Please try again with Y = yes or N = no for continue your uses.\n");
-
+		default:
+			printf("Your reply is invaid. Please entry again.");
+			break;
 		}
 
-
+	default :
+		printf("Your reply is invaid. Please entry again.");
+		break;
 	}
+	fclose(fptr);
 	system("pause");
+}
+
+void student()
+{
+	printf("Enter your class (DCO) \n>");
+	scanf("%s", s.classroom);
+	rewind(stdin);
+	printf("Enter your Year in Study (1-3) \n>>");
+	scanf("%d", s.yearstu);
+	rewind(stdin);
+	printf("Enter your sem in year (1-3)\n>>");
+	scanf("%d", s.semstu);
+	rewind(stdin);
+}
+
+void staff()
+{
+	
 }
