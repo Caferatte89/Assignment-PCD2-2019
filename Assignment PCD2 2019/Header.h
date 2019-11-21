@@ -21,7 +21,8 @@ int todayDate(char toDisplay[]);
 
 // For user infomation usage.
 typedef struct {
-	char name[32];
+	char name[32], id[17];
+	int choose1, choose2, chooset;
 	char password[17];
 	char gender[3], IC[16];
 	char phoneNum[13];
@@ -36,7 +37,8 @@ typedef struct {
 
 // For student information usage.
 typedef struct {
-	char studentID[12];
+	char studentID[12],classroom[4];
+	int yearstu,semstu;
 	UserInfo info;
 } StudentInfo;
 
