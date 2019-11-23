@@ -28,6 +28,27 @@ int checkTimeValid(int time)
 		return 1;
 }
 
+int checkDateValid(int day, int month, int year)
+{
+	if (day < 1 || day > 31 || month < 1 || month > 12)
+		return 0;
+	else if (month == 2)
+	{
+		if (!(year % 4 == 0) && day == 29)
+			return 0;
+		else if (!(year % 100 == 0) && day == 28)
+			return 0;
+		else if (!(year % 400 == 0) && day == 29)
+			return 0;
+	}
+	else if (month < 8 && month % 2 == 0 && day == 31)
+		return 0;
+	else if (month > 8 && month % 2 != 0 && day == 31)
+		return 0;
+	else
+		return 1;
+}
+
 int todayDate(char toDisplay[])
 {
 	time_t t = time(NULL);

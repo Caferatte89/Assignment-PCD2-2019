@@ -37,8 +37,8 @@ typedef struct {
 
 // For student information usage.
 typedef struct {
-	char studentID[12],classroom[4];
-	int yearstu,semstu;
+	char studentID[12], classroom[4];
+	int yearstu, semstu;
 	UserInfo info;
 } StudentInfo;
 
@@ -56,5 +56,11 @@ int checkFile(char fileName[]);
 	return 1 - valid
 	return 0 - not valid */
 int checkTimeValid(int time);
+
+/* To check time input is valid or not. 
+It also able to check whether if leap year day input is valid or not.
+	return 1 - valid
+	return 0 - not valid */
+int checkDateValid(int day, int month, int year);
 
 // 放各种define在这里。
