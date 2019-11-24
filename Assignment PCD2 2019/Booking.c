@@ -33,7 +33,7 @@ typedef struct {
 } Book;
 
 
-int main(void)
+int main123(void)
 {
 	char selection[2], user = 'S';
 	char tempID[] = "S0001";

@@ -19,7 +19,7 @@ void loginArt();
 // Login Screen. It return user inputed selection.
 char loginScreen();
 
-int main55()
+int main7870()
 {
 	int i = 0;
 	char menuSelection, selection[2];
@@ -42,13 +42,13 @@ int main55()
 		printf("\n%55sMAIN MENU%55s", "", "");
 		printf("\n%55s---------%55s", "", "");
 		printf("%48sToday's Date: %02d/%02d/%d\n", "", todayDate("day"), todayDate("month"), todayDate("year"));
-		printf("%44s-------------------------------%44s\n", "", "");
-		printf("%44s| [1] Facility detail         |%44s\n", "", "");
-		printf("%44s| [2] Checking facility usage |%44s\n", "", "");
-		printf("%44s| [3] Booking a facility      |%44s\n", "", "");
-		printf("%44s| [4] Staff related action    |%44s\n", "", "");
-		printf("%44s| [5] Exit                    |%44s\n", "", "");
-		printf("%44s-------------------------------%44s\n", "", "");
+		printf("%43s---------------------------------%43s\n", "", "");
+		printf("%43s| [1] Staff Information Module  |%43s\n", "", "");
+		printf("%43s| [2] Facility Module           |%43s\n", "", "");
+		printf("%43s| [3] Facility Usage Module     |%43s\n", "", "");
+		printf("%43s| [4] Booking Module            |%43s\n", "", "");
+		printf("%43s| [5] Exit                      |%43s\n", "", "");
+		printf("%43s---------------------------------%43s\n", "", "");
 
 		// Let user to choose a selection.
 		// To let user only input 1, 2 and 3.

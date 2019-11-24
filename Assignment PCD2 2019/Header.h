@@ -1,11 +1,11 @@
 #pragma once
 
 // Self-defined sub-main function for each member.
-void StaffInformation();
-void Facility();
-void UserInformation();
-void Booking();
-void FacilityUsage();
+void StaffInformationMod();
+void FacilityMod();
+void UserInformationMod();
+void BookingMod();
+void FacilityUsageMod();
 
 // For date usage.
 typedef struct {

@@ -107,7 +107,7 @@ void viewfac()
 	printf("\n");
 	printf("________________________________________________________________________________________________________________________\n");
 	printf("------------------------------------------------------------------------------------------------------------------------\n");
-	while (fscanf(fp, "%[^|]|%[^|]|%[^|]|%[^|]|%[^|]|\n",
+	while (fscanf(fp, "%[^|]|%[^|]|%[^|]|%[^|]|%[^|]|\n", 
 		&fac1.facID, &fac1.facType, &fac1.facDescription, &fac1.facVenue, &fac1.facDateTime) != EOF)
 	{
 		printf("|  Facility ID             : %-90s|\n|  Facility Type           : %-90s|\n|  Facility Description    : %-90s|\n|  Facility Venue          : %-90s|\n|  Facility Operation Hour : %-90s|\n|\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t|\n", fac1.facID, fac1.facType, fac1.facDescription, fac1.facVenue, fac1.facDateTime);
