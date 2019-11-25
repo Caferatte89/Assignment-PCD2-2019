@@ -1,5 +1,0 @@
-A001 : Badminton Court|
-A002 : Gymnasium|
-A003 : Table Tennis|
-A004 : Squash Court|
-A005 : Snooker Room|

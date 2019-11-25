@@ -7,6 +7,9 @@
 
 // Declaration of self-defined function.
 
+// Function of logo design.
+void bookingLogo();
+
 // Function of adding a booking.
 void addingBook(char tempID[]);
 
@@ -33,36 +36,34 @@ typedef struct {
 } Book;
 
 
-int main123(void)
+int main(void)
 {
 	char selection[2], user = 'S';
 	char tempID[] = "S0001";
 
-	printf("-------------------------------------------\n");
-	printf("%14sBOOKING MODULE\n", "");
-	printf("-------------------------------------------\n\n");
+	bookingLogo();
 	while (1)
 	{
-		printf("%19sMENU\n", "");
-		printf("-------------------------------------------\n");
-		printf("| [1] Adding a booking.                   |\n");
+		printf("%58sMENU\n", "");
+		printf("%38s-------------------------------------------\n", "");
+		printf("%38s| [1] Adding a booking.                   |\n", "");
 		if (user == 'S')
 		{
-			printf("| [2] Delete a booking.                   |\n");
-			printf("| [3] Search a booking.                   |\n");
-			printf("| [4] Checking facility availability.     |\n");
-			printf("| [5] Display your booking.               |\n");
-			printf("| [6] Exit.                               |\n");
+			printf("%38s| [2] Delete a booking.                   |\n", "");
+			printf("%38s| [3] Search a booking.                   |\n", "");
+			printf("%38s| [4] Checking facility availability.     |\n", "");
+			printf("%38s| [5] Display your booking.               |\n", "");
+			printf("%38s| [6] Exit.                               |\n", "");
 		}
 		else
 		{
-			printf("| [2] Delete your booking.                |\n");
-			printf("| [3] Checking facility availability.     |\n");
-			printf("| [4] Display your booking.               |\n");
-			printf("| [5] Exit.                               |\n");
+			printf("%38s| [2] Delete your booking.                |\n", "");
+			printf("%38s| [3] Checking facility availability.     |\n", "");
+			printf("%38s| [4] Display your booking.               |\n", "");
+			printf("%38s| [5] Exit.                               |\n", "");
 		}
-		printf("-------------------------------------------\n");
-		printf("Please choose a selection: ");
+		printf("%38s-------------------------------------------\n", "");
+		printf("%45sPlease choose a selection: ", "");
 		for (int i = 0;;)
 		{
 			selection[i] = getch();
@@ -124,12 +125,23 @@ int main123(void)
 	}
 }
 
+void bookingLogo()
+{
+	printf("%12s ____    ___    ___   __  _  ____  ____    ____      ___ ___   ___   ___    __ __  _        ___ \n", "");
+	printf("%12s|    \\  /   \\  /   \\ |  |/ ]|    ||    \\  /    |    |   |   | /   \\ |   \\  |  |  || |      /  _]\n", "");
+	printf("%12s|  o  )|     ||     ||  ' /  |  | |  _  ||   __|    | _   _ ||     ||    \\ |  |  || |     /  [_ \n", "");
+	printf("%12s|     ||  O  ||  O  ||    \\  |  | |  |  ||  |  |    |  \\_/  ||  O  ||  D  ||  |  || |___ |    _]\n", "");
+	printf("%12s|  O  ||     ||     ||     | |  | |  |  ||  |_ |    |   |   ||     ||     ||  :  ||     ||   [_ \n", "");
+	printf("%12s|     ||     ||     ||  .  | |  | |  |  ||     |    |   |   ||     ||     ||     ||     ||     |\n", "");
+	printf("%12s|_____| \\___/  \\___/ |__|\\_||____||__|__||___,_|    |___|___| \\___/ |_____| \\__,_||_____||_____|\n\n", "");
+}
+
 void addingBook(char tempID[])
 {
-	FILE *fBook, *fNewBook;
+	FILE *fBook, *fNewBook, *fToCheck;
 	Book getBook, tempBook;
-	char checkValid, tempBookID[6], temptoN[60], selection[2];
-	int i, checkBookID;
+	char checkValid, temptoN[60], selection[2], tempBookID[6], tempFacID[5];
+	int i, checkBookID, getFacID;
 
 	// Set date when booking as today's date.
 	getBook.dateWhenBook.day = todayDate("day");
@@ -154,26 +166,35 @@ void addingBook(char tempID[])
 	printf("Booking ID: %s\n", tempBookID);
 
 	// Get input of facility ID.
-	printf("Facility ID (e.g. F0001) (-1 to cancel): ");
-	rewind(stdin);
-	scanf("%6s", getBook.facID);
-	// Cancel and return to menu when user enter -1.
-	if (getBook.facID[0] == '-' && getBook.facID[1] == '1')
+	do
 	{
-		printf("Cancelled.\n");
-		printf("----------");
-		fclose(fBook);
-		return;
-	}
-	while (strlen(getBook.facID) > 5)
-	{
-		printf("Invalid! booking ID should contain only 5 characters.\n");
-		printf("Facility ID (e.g. B1116): ");
+		printf("Facility ID (e.g. A001) (-1 to cancel): ");
 		rewind(stdin);
 		scanf("%6s", getBook.facID);
-	}
-	getBook.facID[0] = toupper(getBook.facID[0]);
-	// 要check有没有这个facility.
+		if (getBook.facID[0] == '-' && getBook.facID[1] == '1')
+		{
+			printf("Cancelled.\n");
+			printf("----------");
+			fclose(fBook);
+			return;
+		}
+		getBook.facID[0] = toupper(getBook.facID[0]);
+		if (strlen(getBook.facID) > 5)
+			printf("Invalid! booking ID should contain only 5 characters.\n");
+		else
+		{
+			fToCheck = fopen("facilitylist.txt", "r");
+			while (!feof(fToCheck))
+			{
+				fscanf(fToCheck, "%*[^|]|%d|%*[^\n]\n", &getFacID);
+				sprintf(tempFacID, "A%03d", getFacID);
+				if (strcmp(tempFacID, getBook.facID) == 0)
+					break;
+			}
+			if (strcmp(tempFacID, getBook.facID) != 0)
+				printf("Invalid! The facility ID %s cannot be found.\n\n", tempFacID);
+		}
+	} while (strlen(getBook.facID) > 5 || strcmp(tempFacID, getBook.facID) != 0);
 
 	// Get input of booking date.
 	do
@@ -424,7 +445,7 @@ void searchBook()
 		}
 		if (valid == 0)
 		{
-			printf("%-15s%02d/%02d/%d%10s%02d/%02d/%d%6s%04d-%04d%6s%-19s%s\n", readBook.bookID,
+			printf("%-15s%02d/%02d/%d%10s%02d/%02d/%d%6s%04d-%04d%6s%-16s%s\n", readBook.bookID,
 				readBook.dateWhenBook.day, readBook.dateWhenBook.month, readBook.dateWhenBook.year,
 				"", readBook.dateBooked.day, readBook.dateBooked.month, readBook.dateBooked.year,
 				"", readBook.bookStart, readBook.bookEnd, "", readBook.userID, readBook.facID);
@@ -466,7 +487,7 @@ void deleteBookStud(char tempID[])
 			&readBook.bookStart, &readBook.bookEnd, readBook.userID, readBook.facID);
 		if (strcmp(readBook.userID, tempID) == 0)
 		{
-			printf("%-15s%02d/%02d/%d%10s%02d/%02d/%d%6s%04d-%04d%9s%s\n", readBook.bookID,
+			printf("%-15s%02d/%02d/%d%10s%02d/%02d/%d%6s%04d-%04d%6s%s\n", readBook.bookID,
 				readBook.dateWhenBook.day, readBook.dateWhenBook.month, readBook.dateWhenBook.year,
 				"", readBook.dateBooked.day, readBook.dateBooked.month, readBook.dateBooked.year,
 				"", readBook.bookStart, readBook.bookEnd, "", readBook.facID);
@@ -618,7 +639,7 @@ void deleteBookStaff(char selfID[])
 			&readBook.bookStart, &readBook.bookEnd, readBook.userID, readBook.facID);
 		if (strcmp(readBook.userID, tempID) == 0)
 		{
-			printf("%-15s%02d/%02d/%d%10s%02d/%02d/%d%6s%04d-%04d%9s%s\n", readBook.bookID,
+			printf("%-15s%02d/%02d/%d%10s%02d/%02d/%d%6s%04d-%04d%6s%s\n", readBook.bookID,
 				readBook.dateWhenBook.day, readBook.dateWhenBook.month, readBook.dateWhenBook.year,
 				"", readBook.dateBooked.day, readBook.dateBooked.month, readBook.dateBooked.year,
 				"", readBook.bookStart, readBook.bookEnd, "", readBook.facID);
@@ -760,7 +781,7 @@ void displayBook(char tempID[])
 			&readBook.bookStart, &readBook.bookEnd, readBook.userID, readBook.facID);
 		if (strcmp(readBook.userID, tempID) == 0)
 		{
-			printf("%-15s%02d/%02d/%d%10s%02d/%02d/%d%6s%04d-%04d%9s%s\n", readBook.bookID,
+			printf("%-15s%02d/%02d/%d%10s%02d/%02d/%d%6s%04d-%04d%6s%s\n", readBook.bookID,
 				readBook.dateWhenBook.day, readBook.dateWhenBook.month, readBook.dateWhenBook.year,
 				"", readBook.dateBooked.day, readBook.dateBooked.month, readBook.dateBooked.year,
 				"", readBook.bookStart, readBook.bookEnd, "", readBook.facID);
