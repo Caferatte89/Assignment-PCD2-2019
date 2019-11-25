@@ -25,7 +25,7 @@ void addfac();
 void editfac();
 void searchfac();
 
-void main()
+void main1234()
 {
 	int choice1;
 
@@ -122,7 +122,7 @@ void viewfac()
 	rewind(stdin);
 	scanf("%c", &anything);
 	system("cls");
-	main();
+	//main();
 }
 
 void addfac()
@@ -200,7 +200,7 @@ void addfac()
 		fclose(fp);
 		fclose(fq);
 		system("cls");
-		main();
+		//main();
 	}
 	else
 	{
@@ -211,7 +211,7 @@ void addfac()
 		fclose(fp);
 		fclose(fq);
 		system("cls");
-		main();
+		//main();
 	}
 }
 

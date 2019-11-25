@@ -1,6 +1,5 @@
-A001|court,shuttlecocks,badminton rackets,court shoes,badminton nets|Each player must book badminton court before using the facilities.|ground floor of Dewan Ah Lock|9a.m.to 8p.m., Monday to Friday only|
-A002|threadmills,stationary bikes,aerobic steppers,weight machines|Please ensure the facility are in the same condition after using.|room 1001- room1005,first floor of Dewan Ah Lock|9a.m.to 6p.m., Monday to Friday only|
-A003|ping pong rackets, ping pong balls, ping pong tables,ping pong nets|All facilities must remain in the room after using|room 1006-room 1007,first floor of Dewan Ah Lock|9a.m.to 3p.m., Monday to Friday only|
-A004|squash balls,squash rackets, googles|Please book before using the squash court.|room 2001-room 2004,second floor of Dewan Ah Lock|9a.m. to 4p.m., Monday to Friday only|
-A005|snooker table,snooker and pool balls,scoreboards,snooker cues,chalks|Snooker is only available for people who over 12 years old.|room 2005-room 2008,second floor of Dewan Ah Lock|9a.m.-9p.m., Thursday to Sunday only|
-
+Badminton Court|1|Court,Shuttlecocks,Badminton rackets,Court shoes,Badminton nets|Each player must book badminton court before using the facilities.|ground floor of Dewan Ah Lock|9a.m.to 8p.m., Monday to Friday only|
+Gymnasium|2|Threadmills,Stationary bikes,Aerobic steppers,Weight machines|Please ensure the facility are in the same condition after using.|room 1001- room1005,first floor of Dewan Ah Lock|9a.m.to 6p.m., Monday to Friday only|
+Table Tennis|3|Ping pong rackets, Ping pong balls, Ping pong tables,ping pong nets|All facilities must remain in the room after using|room 1006-room 1007,first floor of Dewan Ah Lock|9a.m.to 3p.m., Monday to Friday only|
+Squash Court|4|Squash balls,Squash rackets,Googles|Please book before using the squash court.|room 2001-room 2004,second floor of Dewan Ah Lock|9a.m. to 4p.m., Monday to Friday only|
+Snooker Room|5|Snooker table,Snooker and Pool balls,Scoreboards,Snooker Cues,chalks|Snooker is only available for people who over 12 years old.|room 2005-room 2008,second floor of Dewan Ah Lock|9a.m.-9p.m., Thursday to Sunday only|
