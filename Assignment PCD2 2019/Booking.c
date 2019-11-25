@@ -30,7 +30,7 @@ void displayBook(char tempID[]);
 
 // Struct for booking.
 typedef struct {
-	char bookID[6], facID[7], userID[11];
+	char bookID[6], facID[6], userID[11];
 	int bookStart, bookEnd;
 	Date dateBooked, dateWhenBook;
 } Book;
@@ -140,8 +140,9 @@ void addingBook(char tempID[])
 {
 	FILE *fBook, *fNewBook, *fToCheck;
 	Book getBook, tempBook;
-	char checkValid, temptoN[60], selection[2], tempBookID[6], tempFacID[5];
-	int i, checkBookID, getFacID;
+	char temptoN[60], selection[2], checkValid, breakValid;
+	char checkAPStart[5], checkAPEnd[5];
+	int n, checkBookID, getFacID;
 
 	// Set date when booking as today's date.
 	getBook.dateWhenBook.day = todayDate("day");
@@ -154,16 +155,16 @@ void addingBook(char tempID[])
 	fBook = fopen("BookingLog.txt", "r");
 	if (fBook == NULL)
 		fBook = fopen("BookingLog.txt", "w");
-	// Generate booking ID.
-	for (i = 1; !feof(fBook); i++)
+	// Generating booking ID.
+	for (n = 1; !feof(fBook); n++)
 	{
 		fscanf(fBook, "B%d|%[^\n]\n", &checkBookID, temptoN);
-		if (i != checkBookID)
+		if (n != checkBookID)
 			break;
 	}
-	sprintf(tempBookID, "B%04d", i);
-	strcpy(getBook.bookID, tempBookID);
-	printf("Booking ID: %s\n", tempBookID);
+	sprintf(tempBook.bookID, "B%04d", n);
+	strcpy(getBook.bookID, tempBook.bookID);
+	printf("Booking ID: %s\n", tempBook.bookID);
 
 	// Get input of facility ID.
 	do
@@ -179,22 +180,23 @@ void addingBook(char tempID[])
 			return;
 		}
 		getBook.facID[0] = toupper(getBook.facID[0]);
-		if (strlen(getBook.facID) > 5)
-			printf("Invalid! booking ID should contain only 5 characters.\n");
+		if (strlen(getBook.facID) > 4)
+			printf("Invalid! booking ID should contain only 4 characters.\n\n");
 		else
 		{
 			fToCheck = fopen("facilitylist.txt", "r");
 			while (!feof(fToCheck))
 			{
 				fscanf(fToCheck, "%*[^|]|%d|%*[^\n]\n", &getFacID);
-				sprintf(tempFacID, "A%03d", getFacID);
-				if (strcmp(tempFacID, getBook.facID) == 0)
+				sprintf(tempBook.facID, "A%03d", getFacID);
+				if (strcmp(tempBook.facID, getBook.facID) == 0)
 					break;
 			}
-			if (strcmp(tempFacID, getBook.facID) != 0)
-				printf("Invalid! The facility ID %s cannot be found.\n\n", tempFacID);
+			if (strcmp(tempBook.facID, getBook.facID) != 0)
+				printf("Invalid! The facility cannot be found.\n\n");
+			fclose(fToCheck);
 		}
-	} while (strlen(getBook.facID) > 5 || strcmp(tempFacID, getBook.facID) != 0);
+	} while (strlen(getBook.facID) > 4 || strcmp(tempBook.facID, getBook.facID) != 0);
 
 	// Get input of booking date.
 	do
@@ -203,10 +205,10 @@ void addingBook(char tempID[])
 		rewind(stdin);
 		scanf("%d/%d/%d%c", &getBook.dateBooked.day, &getBook.dateBooked.month, &getBook.dateBooked.year, &checkValid);
 		if (checkValid != '\n')
-			printf("Invalid input! Please enter again.\n");
+			printf("Invalid input! Please enter again.\n\n");
 		else if (getBook.dateBooked.day <= todayDate("day") + 1 || getBook.dateBooked.month < todayDate("month")
 			|| getBook.dateBooked.year < todayDate("year"))
-			printf("Invalid input! The Booking Date should at least one day in advance!\n");
+			printf("Invalid input! The Booking Date should at least one day in advance!\n\n");
 	} while (checkValid != '\n' || getBook.dateBooked.day <= todayDate("day") + 1
 		|| getBook.dateBooked.month < todayDate("month")
 		|| getBook.dateBooked.year < todayDate("year"));
@@ -215,22 +217,12 @@ void addingBook(char tempID[])
 	// Get input of booking time.
 	do
 	{
-		getBook.bookEnd = getBook.bookStart = -2;
+		getBook.bookEnd = getBook.bookStart = -1024;
+		breakValid = 'Y';
 		printf("Booking Time (In 24 hours format):\n");
 		printf("\tEnter -1 to cancel the booking.\n");
-		printf("\tFrom: ");
-		rewind(stdin);
-		scanf("%d", &getBook.bookStart);
-		// 要加check 时间 facility file.
-		if (getBook.bookStart == -1)
+		do
 		{
-			printf("Cancelled.\n");
-			printf("----------");
-			return;
-		}
-		while (checkTimeValid(getBook.bookStart) == 0)
-		{
-			printf("\tInvalid time input!\n\n");
 			printf("\tFrom: ");
 			rewind(stdin);
 			scanf("%d", &getBook.bookStart);
@@ -240,14 +232,47 @@ void addingBook(char tempID[])
 				printf("----------");
 				return;
 			}
-		}
+			if (checkTimeValid(getBook.bookStart) == 0)
+				printf("\tInvalid time input!\n\n");
+		} while (checkTimeValid(getBook.bookStart) == 0);
+
 		printf("\tTo  : ");
 		rewind(stdin);
 		scanf("%d", &getBook.bookEnd);
-		// 要加check 时间file.
 		if (checkTimeValid(getBook.bookEnd) == 0 || getBook.bookStart >= getBook.bookEnd)
-			printf("\tInvalid time input!\n");
-		else
+		{
+			printf("\tInvalid time input!\n\n");
+			breakValid = 'N';
+		}
+		if (breakValid == 'Y')
+		{
+			fToCheck = fopen("facilitylist.txt", "r");
+			while (!feof(fToCheck))
+			{
+				fscanf(fToCheck, "%*[^|]|%d|%*[^|]|%*[^|]|%*[^|]|%d%[^t]to %d%[^,],%*[^\n]\n", &getFacID,
+					&tempBook.bookStart, checkAPStart, &tempBook.bookEnd, checkAPEnd);
+				sprintf(tempBook.facID, "A%03d", getFacID);
+				if (strcmp(tempBook.facID, getBook.facID) == 0)
+					break;
+			}
+
+			if (strcmp(checkAPStart, "a.m.") == 0)
+				tempBook.bookStart *= 100;
+			else
+				tempBook.bookStart = (12 + tempBook.bookStart) * 100;
+
+			if (strcmp(checkAPEnd, "a.m.") == 0)
+				tempBook.bookEnd *= 100;
+			else
+				tempBook.bookEnd = (12 + tempBook.bookEnd) * 100;
+
+			if (getBook.bookStart < tempBook.bookStart || getBook.bookEnd > tempBook.bookEnd)
+			{
+				printf("Invalid input! Booking time should within range of facility open time! (%04d - %04d)\n\n", tempBook.bookStart, tempBook.bookEnd);
+				breakValid = 'N';
+			}
+		}
+		if (breakValid == 'Y')
 		{
 			rewind(fBook);
 			while (!feof(fBook))
@@ -262,17 +287,14 @@ void addingBook(char tempID[])
 						&& getBook.bookStart >= tempBook.bookEnd && getBook.bookEnd > tempBook.bookEnd)) && strcmp(tempBook.facID, getBook.facID) == 0 &&
 					getBook.dateBooked.day == tempBook.dateBooked.day && getBook.dateBooked.month == tempBook.dateBooked.month &&
 					getBook.dateBooked.year == tempBook.dateBooked.year)
+				{
 					printf("\tInvalid input! The booking time %04d-%04d has been booked.\n\n", tempBook.bookStart, tempBook.bookEnd);
-				break;
+					breakValid = 'N';
+					break;
+				}
 			}
 		}
-	} while (checkTimeValid(getBook.bookEnd) == 0 || getBook.bookStart >= getBook.bookEnd || 
-		(!((getBook.bookStart < tempBook.bookStart && getBook.bookEnd <= tempBook.bookStart
-			&& getBook.bookStart < tempBook.bookEnd && getBook.bookEnd < tempBook.bookEnd) ||
-			(getBook.bookStart > tempBook.bookStart && getBook.bookEnd > tempBook.bookStart
-				&& getBook.bookStart >= tempBook.bookEnd && getBook.bookEnd > tempBook.bookEnd)) && strcmp(tempBook.facID, getBook.facID) == 0 &&
-			getBook.dateBooked.day == tempBook.dateBooked.day && getBook.dateBooked.month == tempBook.dateBooked.month &&
-			getBook.dateBooked.year == tempBook.dateBooked.year));
+	} while (breakValid != 'Y');
 
 	printf("----------------\n\n");
 	printf("%6sYOUR BOOKING\n", "");
@@ -310,7 +332,7 @@ void addingBook(char tempID[])
 		printf("\nAdding...\n");
 		fNewBook = fopen("tempBook.txt", "w");
 		rewind(fBook);
-		for (int x = 1; x < i; x++)
+		for (int x = 1; x < n; x++)
 		{
 			fscanf(fBook, "B%d|%[^\n]\n", &checkBookID, temptoN);
 			fprintf(fNewBook, "B%04d|%s\n", checkBookID, temptoN);
