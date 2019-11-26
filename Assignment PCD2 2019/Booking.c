@@ -181,7 +181,7 @@ void addingBook(char tempID[])
 		}
 		getBook.facID[0] = toupper(getBook.facID[0]);
 		if (strlen(getBook.facID) > 4)
-			printf("Invalid! booking ID should contain only 4 characters.\n\n");
+			printf("Invalid! Facility ID should contain only 4 characters.\n\n");
 		else
 		{
 			fToCheck = fopen("facilitylist.txt", "r");
@@ -364,7 +364,68 @@ void addingBook(char tempID[])
 
 void checkAvailable()
 {
+	FILE *fBook, *fToCheck;
+	char tempFacID[5], inputFacID[5], checkAPStart[5], checkAPEnd[5];
+	int getFacID, timeStart, timeEnd, bookStart, bookEnd, counter;
 
+	printf("CHECKING FACILITY AVAILBILITY\n");
+	printf("-----------------------------\n");
+
+	do
+	{
+		printf("Facility ID (e.g. A001) (-1 to cancel): ");
+		rewind(stdin);
+		scanf("%6s", inputFacID);
+		if (inputFacID[0] == '-' && inputFacID[1] == '1')
+		{
+			printf("Cancelled.\n");
+			printf("----------");
+			return;
+		}
+		inputFacID[0] = toupper(inputFacID[0]);
+		if (strlen(inputFacID) > 4)
+			printf("Invalid! Facility ID should contain only 4 characters.\n\n");
+		else
+		{
+			fToCheck = fopen("facilitylist.txt", "r");
+			while (!feof(fToCheck))
+			{
+				fscanf(fToCheck, "%*[^|]|%d|%*[^|]|%*[^|]|%*[^|]|%d%[^t]to %d%[^,],%*[^\n]\n", &getFacID, &timeStart, checkAPStart, &timeEnd, checkAPEnd);
+				sprintf(tempFacID, "A%03d", getFacID);
+				if (strcmp(tempFacID, inputFacID) == 0)
+					break;
+			}
+			if (strcmp(tempFacID, inputFacID) != 0)
+				printf("Invalid! The facility cannot be found.\n\n");
+			fclose(fToCheck);
+		}
+	} while (strlen(inputFacID) > 4 || strcmp(tempFacID, inputFacID) != 0);
+
+	if (strcmp(checkAPStart, "a.m.") == 0)
+		timeStart *= 100;
+	else
+		timeStart = (12 + timeStart) * 100;
+
+	if (strcmp(checkAPEnd, "a.m.") == 0)
+		timeEnd *= 100;
+	else
+		timeEnd = (12 + timeEnd) * 100;
+
+	printf("\nThe Facility starts at %04d until %04d.\n", timeStart, timeEnd);
+	printf("-----------\n");
+	printf("Booked Time\n");
+	printf("-----------\n");
+
+	fBook = fopen("BookingLog.txt", "r");
+	counter = 0;
+	while (!feof(fBook))
+	{
+		fscanf(fBook, "%*[^|]|%*[^|]|%*[^|]|%d-%d|%*[^\n]\n", &bookStart, &bookEnd);
+		counter++;
+		printf("%d. %04d-%04d\n", counter, bookStart, bookEnd);
+	}
+	printf("%d record(s) found.\n", counter);
+	system("pause");
 }
 
 void searchBook()
