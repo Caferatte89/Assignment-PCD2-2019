@@ -412,18 +412,22 @@ void checkAvailable()
 		timeEnd = (12 + timeEnd) * 100;
 
 	printf("\nThe Facility starts at %04d until %04d.\n", timeStart, timeEnd);
-	printf("-----------\n");
+	printf("------------\n");
 	printf("Booked Time\n");
-	printf("-----------\n");
+	printf("------------\n");
 
 	fBook = fopen("BookingLog.txt", "r");
 	counter = 0;
 	while (!feof(fBook))
 	{
-		fscanf(fBook, "%*[^|]|%*[^|]|%*[^|]|%d-%d|%*[^\n]\n", &bookStart, &bookEnd);
-		counter++;
-		printf("%d. %04d-%04d\n", counter, bookStart, bookEnd);
+		fscanf(fBook, "%*[^|]|%*[^|]|%*[^|]|%d-%d|%*[^|]|%[^\n]\n", &bookStart, &bookEnd, tempFacID);
+		if (strcmp(tempFacID, inputFacID) == 0)
+		{
+			counter++;
+			printf("%d. %04d-%04d\n", counter, bookStart, bookEnd);
+		}
 	}
+	printf("------------\n");
 	printf("%d record(s) found.\n", counter);
 	system("pause");
 }
