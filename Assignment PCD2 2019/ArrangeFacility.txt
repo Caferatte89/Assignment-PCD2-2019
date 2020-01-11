@@ -14,3 +14,4 @@ Snooker Room|D|13|Snooker table,Snooker and Pool balls,Scoreboards,Snooker Cues,
 Futsal Court|A|14|Soccer balls,Futsal Goal,Goalkeeper gloves, Air Pump for balls|Please book before using the futsal court|room 3001,third floor of TARUC Clubhouse|9a.m. to 8p.m.|
 Futsal Court|B|15|Soccer balls,Futsal Goal,Goalkeeper gloves, Air Pump for balls|Please book before using the futsal court|room 3002,third floor of TARUC Clubhouse|9a.m. to 8p.m.|
 Futsal Court|C|16|Soccer balls,Futsal Goal,Goalkeeper gloves, Air Pump for balls|Please book before using the futsal court|room 3003,third floor of TARUC Clubhouse|9a.m. to 8p.m.|
+Volleyball Court|A|18|hello|hello|A111|11a.m. to 8p.m.|

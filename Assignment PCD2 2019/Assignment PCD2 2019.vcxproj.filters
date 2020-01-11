@@ -27,13 +27,13 @@
     <ClCompile Include="UserInfo.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Usage.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Booking.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Header.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FacilityUsage.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

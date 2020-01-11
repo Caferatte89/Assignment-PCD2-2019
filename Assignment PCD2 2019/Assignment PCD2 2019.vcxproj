@@ -21,12 +21,12 @@
   <ItemGroup>
     <ClCompile Include="Booking.c" />
     <ClCompile Include="Facility.c" />
+    <ClCompile Include="FacilityUsage.c" />
     <ClCompile Include="Header.c" />
     <ClCompile Include="Main.c" />
     <ClCompile Include="StaffInfo.c" />
-    <ClCompile Include="Usage.c" />
     <ClCompile Include="UserInfo.c">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

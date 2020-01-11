@@ -1,151 +1,198 @@
-/*
-Staff Information Module - Chong Ke Wei
-Facility Module - Ng Jeriel
-User Information Module - Khaw Zhe Xue
-Booking Module - Ong Chen Xiang
-Facility Usage Module - Chin Sze Sing
-*/
-
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
+#include <conio.h>
 #include "Header.h"
 #pragma warning(disable:4996)
 
-// Declaration of self-defined function.
+void mainLogo();
+void loginMenu();
+void mainMenu(char userType);
+void newToOldBooking();
 
-// Art of Login Screen.
-void loginArt();
-// Login Screen. It return user inputed selection.
-char loginScreen();
-
-int main7870()
+int main(char loginacc[])
 {
-	int i = 0;
-	char menuSelection, selection[2];
+	int choice;
+	char success = 'Y';
+	char userType, userID[10], password[20];
 
-	loginArt();
-	menuSelection = loginScreen();
-	switch (menuSelection)
-	{
-	case '1':
-		break;
-	case '2':
-		break;
-	case '3':
-		return 0;
-	}
+	newToOldBooking();
 
-	system("cls");
 	while (1)
 	{
-		printf("\n%55sMAIN MENU%55s", "", "");
-		printf("\n%55s---------%55s", "", "");
-		printf("%48sToday's Date: %02d/%02d/%d\n", "", todayDate("day"), todayDate("month"), todayDate("year"));
-		printf("%43s---------------------------------%43s\n", "", "");
-		printf("%43s| [1] Staff Information Module  |%43s\n", "", "");
-		printf("%43s| [2] Facility Module           |%43s\n", "", "");
-		printf("%43s| [3] Facility Usage Module     |%43s\n", "", "");
-		printf("%43s| [4] Booking Module            |%43s\n", "", "");
-		printf("%43s| [5] Exit                      |%43s\n", "", "");
-		printf("%43s---------------------------------%43s\n", "", "");
+		do
+		{
+			mainLogo();
+			printf("\n\n");
+			loginMenu();
+			printf("%44sPress UP and DOWN button to select.\n", "");
+			printf("%46sPlease choose a selection: ", "");
+			choice = numSelect(1, 1, 3);
 
-		// Let user to choose a selection.
-		// To let user only input 1, 2 and 3.
-		printf("%45sPlease choose a selection: ", "");
+			system("cls");
+			switch (choice)
+			{
+			case 1:
+				studentLogin(&userType, userID, password);
+				printf("%40sPress any key will continue...", "");
+				getch();
+				break;
+			case 2:
+				success = staffLogin(&userType, userID, password);
+				break;
+			case 3:
+				exit(-1);
+			}
+		} while (success == 'N');
+
 		while (1)
 		{
-			selection[i] = getch();
-			if (i == 1)
+			system("cls");
+			mainLogo();
+			printf("\n\n\n");
+			mainMenu(userType);
+			printf("%46sPlease choose a selection: ", "");
+			if (userType == 'T')
 			{
-				if (selection[i] == '\n' || selection[i] == '\r')
-					break;
-				else if (selection[i] == '\b')
+				choice = numSelect(1, 1, 5);
+				system("cls");
+				switch (choice)
 				{
-					printf("\b \b");
-					i--;
+				case 1:
+					BookingMod(userType, userID, password);
+					break;
+				case 2:
+					UserInformationMod();
+					break;
+				case 3:
+					FacilityMod(userType);
+					break;
+				case 4:
+					FacilityUsageMod(userType, userID);
+					break;
+				case 5:
+					break;
 				}
+				if (choice == 5)
+					break;
 			}
-			else if (selection[i] != '1' && selection[i] != '2' && selection[i] != '3' && selection[i] != '4' && selection[i] != '5')
-				continue;
 			else
 			{
-				printf("%c", selection[i]);
-				i++;
+				choice = numSelect(1, 1, 6);
+				system("cls");
+				switch (choice)
+				{
+				case 1:
+					BookingMod(userType, userID, password);
+					break;
+				case 2:
+					UserInformationMod();
+					break;
+				case 3:
+					StaffInformationMod(userID);
+					break;
+				case 4:
+					FacilityMod(userType);
+					break;
+				case 5:
+					FacilityUsageMod(userType, userID);
+					break;
+				case 6:
+					break;
+				}
+				if (choice == 6)
+					break;
 			}
 		}
-
-		switch (selection[0])
-		{
-		case '1':
-			//Facility(); break;
-		case '2':
-			//FacilityUsage(); break;
-		case '3':
-			//Booking(); break;
-		case '4':
-			//StaffInformation();
-			break;
-		case '5':
-			return 0;
-		}
 	}
+
 }
 
-void loginArt()
+void mainLogo()
 {
-	printf("%16s  _________                     __    ___________             .__.__  .__  __          %16s\n", "", "");
-	printf("%16s /   _____/_____   ____________/  |_  \\_   _____/____    ____ |__|  | |__|/  |_ ___.__.%16s\n", "", "");
-	printf("%16s \\_____  \\\\____ \\ /  _ \\_  __ \\   __\\  |    __) \\__  \\ _/ ___\\|  |  | |  \\   __<   |  |%16s\n", "", "");
-	printf("%16s /        \\  |_> >  <_> )  | \\/|  |    |     \\   / __ \\\\  \\___|  |  |_|  ||  |  \\___  |%16s\n", "", "");
-	printf("%16s/_______  /   __/ \\____/|__|   |__|    \\___  /  (____  /\\___  >__|____/__||__|  / ____|%16s\n", "", "");
-	printf("%16s        \\/|__|                             \\/        \\/     \\/                  \\/     %16s\n", "", "");
-	for (int i = 0; i < 120; i++)
-		printf("-");
-	printf("\n\n");
+	printf("%7s  _____ ____   ___   ____  ______      _____   ____    __  ____  _      ____  ______  ____    ___  _____\n", "");
+	printf("%7s / ___/|    \\ /   \\ |    \\|      |    |     | /    |  /  ]|    || |    |    ||      ||    |  /  _]/ ___/\n", "");
+	printf("%7s(   \\_ |  o  )     ||  D  )      |    |   __||  o  | /  /  |  | | |     |  | |      | |  |  /  [_(   \\_ \n", "");
+	printf("%7s \\__  ||   _/|  O  ||    /|_|  |_|    |  |_  |     |/  /   |  | | |___  |  | |_|  |_| |  | |    _]\\__  |\n", "");
+	printf("%7s /  \\ ||  |  |     ||    \\  |  |      |   _] |  _  /   \\_  |  | |     | |  |   |  |   |  | |   [_ /  \\ |\n", "");
+	printf("%7s \\    ||  |  |     ||  .  \\ |  |      |  |   |  |  \\     | |  | |     | |  |   |  |   |  | |     |\\    |\n", "");
+	printf("%7s  \\___||__|   \\___/ |__|\\_| |__|      |__|   |__|__|\\____||____||_____||____|  |__|  |____||_____| \\___|\n", "");
 }
 
-char loginScreen()
+void loginMenu()
 {
-	int i = 0;
-	char selection[2];
+	printf("%57sTARUC\n", "");
+	printf("%48sSPORT FACILITIES SYSTEM\n", "");
+	printf("%48s-----------------------\n", "");
+	printf("%54sProduced By:\n", "");
+	printf("%54s----------- \n", "");
+	printf("%53sONG CHEN XIANG\n", "");
+	printf("%55sNG JERIEL\n", "");
+	printf("%54sCHONG KE WEI\n", "");
+	printf("%53sCHIN SZE SING\n", "");
+	printf("%54sKHAW ZHE XUE\n", "");
+	printf("%49s---------------------\n", "");
+	printf("%49s| [1] STUDENT LOGIN |\n", "");
+	printf("%49s| [2] STAFF LOGIN   |\n", "");
+	printf("%49s| [3] EXIT          |\n", "");
+	printf("%49s---------------------\n", "");
+}
 
-	printf("%49sSPORT FACILITY SYSTEM%49s\n", "", "");
-	printf("%51s-----------------%51s\n", "", "");
-	printf("%51s| [1]  LOGIN    |%51s\n", "", "");
-	printf("%51s| [2]  REGISTER |%51s\n", "", "");
-	printf("%51s| [3]  EXIT     |%51s\n", "", "");
-	printf("%51s-----------------%51s\n", "", "");
-	printf("%48sToday's Date: %02d/%02d/%d\n", "", todayDate("day"), todayDate("month"), todayDate("year"));
-	printf("%48sWritten by: Ong Chen Xiang\n", "");
-	printf("%48s            Ng Jeriel\n", "");
-	printf("%48s            Chong Ke Wei\n", "");
-	printf("%48s            Chin Sze Sing\n", "");
-	printf("%48s            Khaw Zhe Xue\n\n", "");
-	printf("%47sPlease choose a selection: ", "");
-	
-	// To let user only input 1, 2 and 3.
-	while (1)
+void mainMenu(char userType)
+{
+	if (userType == 'T')
 	{
-		selection[i] = getch();
-		if (i == 1)
-		{
-			if (selection[i] == '\n' || selection[i] == '\r')
-				break;
-			else if (selection[i] == '\b')
-			{
-				printf("\b \b");
-				i--;
-			}
-		}
-		else if (selection[i] != '1' && selection[i] != '2' && selection[i] != '3')
-			continue;
+		printf("%55sMAIN MENU\n", "");
+		printf("%45s-----------------------------\n", "");
+		printf("%45s| [1] Manage Booking        |\n", "");
+		printf("%45s| [2] Manage User Profile   |\n", "");
+		printf("%45s| [3] Check Facility Info   |\n", "");
+		printf("%45s| [4] Check Facility Usage  |\n", "");
+		printf("%45s| [5] Exit                  |\n", "");
+		printf("%45s-----------------------------\n", "");
+	}
+	else
+	{
+		printf("%55sMAIN MENU\n", "");
+		printf("%45s-----------------------------\n", "");
+		printf("%45s| [1] Manage Booking        |\n", "");
+		printf("%45s| [2] Manage Student Info   |\n", "");
+		printf("%45s| [3] Manage Staff Info     |\n", "");
+		printf("%45s| [4] Manage Facility Info  |\n", "");
+		printf("%45s| [5] Check Facility Usage  |\n", "");
+		printf("%45s| [6] Exit                  |\n", "");
+		printf("%45s-----------------------------\n", "");
+	}
+}
+
+void newToOldBooking()
+{
+	FILE *fOld, *fBook, *fNew;
+	Date checkDate;
+	int startTime, endTime;
+	char thing1[10], thing2[20], thing3[60];
+
+	fBook = fopen("BookingList.txt", "r");
+	if (fBook == NULL)
+		return;
+	fOld = fopen("OldBookingList.txt", "a");
+	if (fOld == NULL)
+		fOld = fopen("OldBookingList.txt", "w");
+	fNew = fopen("TempBookingList.txt", "w");
+
+	while (!feof(fBook))
+	{
+		fscanf(fBook, "%[^|]|%[^|]|%d/%d/%d|%d-%d|%[^\n]\n", thing1, thing2, &checkDate.day, &checkDate.month, &checkDate.year, &startTime, &endTime, thing3);
+		if (checkDate.day <= todayDate("day") && checkDate.month <= todayDate("month") && checkDate.year <= todayDate("year") &&
+			endTime <= todayDate("hour") * 100 + todayDate("minute"))
+			fprintf(fOld, "%s|%s|%02d/%02d/%04d|%04d-%04d|%s\n", thing1, thing2, checkDate.day, checkDate.month, checkDate.year, startTime, endTime, thing3);
 		else
-		{
-			printf("%c", selection[i]);
-			i++;
-		}
+			fprintf(fNew, "%s|%s|%02d/%02d/%04d|%04d-%04d|%s\n", thing1, thing2, checkDate.day, checkDate.month, checkDate.year, startTime, endTime, thing3);
 	}
 
-	return selection[0];
+	fclose(fBook);
+	fclose(fOld);
+	fclose(fNew);
+
+	system("del BookingList.txt");
+	system("ren TempBookingList.txt BookingList.txt");
 }
